@@ -7,9 +7,6 @@
 <link rel="stylesheet" href="/static/css/board.css">
 <title>Board</title>
 </head>
-<script>
-console.log(${models})
-</script>
 <body>
 	<jsp:include page="common/header.jsp" />
 	<div class="container is-max-desktop my-3">
@@ -29,4 +26,7 @@ console.log(${models})
 		</div>
 	</div>
 </body>
+<script>
+console.log("${models[0].name}")
+</script>
 </html>
