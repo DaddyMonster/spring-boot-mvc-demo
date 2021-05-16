@@ -1,7 +1,17 @@
 .board-container {
-  min-height: 800px;
+  min-height: 400px;
+  max-height: 800px;
   border-radius: 15px;
   padding: 0;
+  display : flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.board-inner{
+  height: 100%;
+  padding: 10px;
+  flex: 1 0 auto;
 }
 
 .board-container > .board-head {
