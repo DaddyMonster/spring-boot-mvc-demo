@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
-import com.example.demo.dto.RegisterDto;
 import com.example.demo.model.DemoUserModel;
+import com.example.demo.vo.RegisterVo;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -17,16 +17,17 @@ import org.apache.ibatis.annotations.Update;
 public interface DemoUserMapper {
 
     @Select("select * from demouser where id = ${uid}")
-    @Results(id = "userMap", value = { @Result(property = "user_email", column = "email"),
-            @Result(property = "user_name", column = "name"), @Result(property = "user_email", column = "email") })
+    @Results(id = "userMap", value = { @Result(property = "email", column = "user_email"),
+            @Result(property = "name", column = "user_name"),
+            @Result(property = "password", column = "user_password") })
     public DemoUserModel findUserOneById(int uid);
 
     @Select("select * from demouser where user_email = #{email}")
     @ResultMap("userMap")
     public DemoUserModel findUserOneByEmail(String email);
 
-    @Insert("insert into demouser(user_email, user_name, user_password) values( #{dto.email} , #{dto.name}, #{dto.password} )")
-    public int registerUser(@Param("dto") RegisterDto dto);
+    @Insert("insert into demouser(user_email, user_name, user_password) values( #{vo.email} , #{vo.name}, #{vo.password} )")
+    public int registerUser(@Param("vo") RegisterVo vo);
 
     @Update("update demouser set user_password = #{newPassword} where id = #{uid}")
     public int updatePassword(@Param("uid") int uid, @Param("newPassword") String newPassword);

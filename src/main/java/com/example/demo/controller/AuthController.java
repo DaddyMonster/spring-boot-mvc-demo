@@ -7,9 +7,11 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import com.example.demo.dto.LoginDto;
+import com.example.demo.dto.RegisterDto;
 import com.example.demo.interceptor.SessionNames;
-import com.example.demo.model.DemoUserModel;
+import com.example.demo.model.AuthErrorModel;
 import com.example.demo.service.AuthService;
+import com.example.demo.vo.LoginUserVo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,13 +29,13 @@ public class AuthController {
     private AuthService auth_srv;
 
     @GetMapping("/login")
-    public String loginPage(HttpSession session, HttpServletRequest request, HttpServletResponse response,
+    public String loginView(HttpSession session, HttpServletRequest request, HttpServletResponse response,
             Model model) {
         System.out.println(session.getAttribute(SessionNames.LOGIN));
         session.removeAttribute(SessionNames.LOGIN);
         session.invalidate();
-
         Cookie loginCookie = WebUtils.getCookie(request, SessionNames.LOGIN);
+
         if (loginCookie != null) {
             loginCookie.setPath("/");
             loginCookie.setMaxAge(0);
@@ -47,26 +49,65 @@ public class AuthController {
 
     @PostMapping("/login-submit")
     public String handleSubmit(@Valid @ModelAttribute("loginDto") LoginDto dto, BindingResult bindingResult,
-            HttpSession session) throws Exception {
+            Model model, HttpSession session) throws Exception {
         if (bindingResult.hasErrors()) {
             System.out.println(dto);
             System.out.println("Invalid!" + bindingResult.getAllErrors().toString());
             return "login";
         } else {
             try {
-                System.out.println("\n \nUSER DTO: ");
-                System.out.println(dto);
-                DemoUserModel user = auth_srv.LoginUser(dto);
-                System.out.println("\n \nUSER : ");
-                System.out.println(user);
-                if (user != null) {
-                    return "redirect:/board";
+                LoginUserVo userVo = auth_srv.LoginUser(dto);
+                if (userVo.getError() != null) {
+                    AuthErrorModel voError = userVo.getError();
+                    bindingResult.rejectValue(voError.getReason(), "loginDto." + voError.getReason(),
+                            voError.getMessage());
+                    return "login";
                 }
-                return "login";
+                // 나머진 인터셉터가 핸들링!
+                // 굳이 로그인 하나에 해당해선 인터셉터로 구현할 필요는 없을듯...(컨트롤러로 충분)?!
+                // Session 과 쿠키 세팅을 인터셉터로 구현하는게 나은가?
+                model.addAttribute("user", userVo.getUser());
+                return "board";
+
             } catch (Exception e) {
                 return "error";
             }
         }
     }
 
+    @GetMapping("/register")
+    public String registerView(HttpSession session, HttpServletRequest request, HttpServletResponse response,
+            Model model) {
+        model.addAttribute("registerDto", new RegisterDto());
+
+        return "register";
+    }
+
+    @PostMapping("/register-submit")
+    public String registerSubmit(@Valid @ModelAttribute("registerDto") RegisterDto dto, BindingResult bindingResult,
+            Model model, HttpSession session, HttpServletResponse response) {
+        if (bindingResult.hasErrors()) {
+            if (bindingResult.hasGlobalErrors()) {
+                bindingResult.rejectValue("passwordCheck", "registerDto.passwordCheck",
+                        bindingResult.getGlobalError().getDefaultMessage());
+            }
+            System.out.println(dto);
+            System.out.println("Invalid!" + bindingResult.getGlobalErrors().toString());
+            return "register";
+        } else {
+            try {
+                AuthErrorModel registerTrial = auth_srv.RegisterUser(dto);
+                if (registerTrial != null) {
+                    bindingResult.rejectValue("email", "registerDto.email", "이미 사용중인 E-mail 입니다.");
+                    return "register";
+                }
+                response.sendRedirect("/login");
+                return null;
+
+            } catch (Exception e) {
+                return "error";
+            }
+        }
+
+    }
 }

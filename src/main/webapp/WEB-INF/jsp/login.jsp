@@ -37,6 +37,6 @@
 		</form:form>
 	</main>
 </body>
-
+<script>console.log("${loginDto}")</script>
 
 </html>

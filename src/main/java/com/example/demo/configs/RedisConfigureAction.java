@@ -10,4 +10,5 @@ public class RedisConfigureAction {
 	public ConfigureRedisAction configureRedisAction() {
 		return ConfigureRedisAction.NO_OP;
 	}
+
 }
