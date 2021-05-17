@@ -17,14 +17,13 @@ public class BoardServiceImpl implements BoardService {
     private BoardMapper mapper;
 
     @Override
-    public void regist(RegisterBoardDto board, int uid) throws Exception {
-        mapper.registerBoard(board, uid);
+    public int regist(RegisterBoardDto board, int uid) throws Exception {
+       return mapper.registerBoard(board, uid);
     }
 
     @Override
     public BoardModel read(Integer boardId) throws Exception {
-
-        return null;
+        return mapper.findBoardById(boardId);
     }
 
     @Override
@@ -33,8 +32,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void remove(Integer bno) throws Exception {
-
+    public int remove(Integer bno) throws Exception {
+        return mapper.deleteBoard(bno);
     }
 
     @Override

@@ -31,8 +31,7 @@ public class PageMakerModel {
 
     private void calcData() {
 
-        endPage = (int) (Math.ceil(criteria.getPage() / (double) displayPageNum) * displayPageNum);
-
+        endPage = (int) (Math.ceil(criteria.getPage() / (double) displayPageNum)) * displayPageNum;
         startPage = (endPage - displayPageNum) + 1;
         if (startPage <= 0)
             startPage = 1;
@@ -42,9 +41,10 @@ public class PageMakerModel {
             endPage = tempEndPage;
         }
 
-        prev = startPage == 1 ? false : true;
-        next = endPage * criteria.getPerPageNum() < totalCount ? true : false;
-
+        prev = criteria.getPage() == 1 ? false : true;
+        next = criteria.getPage() * criteria.getPerPageNum() < totalCount ? true : false;
+        setPrev(prev);
+        setNext(next);
     }
 
     public int getStartPage() {

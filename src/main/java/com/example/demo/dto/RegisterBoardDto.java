@@ -19,4 +19,10 @@ public class RegisterBoardDto {
     @NotNull(message = ValidationMessages.Required)
     @Size(min = 10, max = 1024, message = "10자 이상 , 1024자 이하로 작성!")
     private String description;
+
+    public RegisterBoardDto(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
 }

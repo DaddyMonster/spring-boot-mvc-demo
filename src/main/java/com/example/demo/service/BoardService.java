@@ -7,13 +7,13 @@ import com.example.demo.model.BoardModel;
 import com.example.demo.util.Criteria;
 
 public interface BoardService {
-    void regist(RegisterBoardDto board, int uid) throws Exception;
+    int regist(RegisterBoardDto board, int uid) throws Exception;
 
     BoardModel read(Integer boardId) throws Exception;
 
     void modify(BoardModel board) throws Exception;
 
-    void remove(Integer bno) throws Exception;
+    int remove(Integer bno) throws Exception;
 
     List<BoardModel> listCriteria(Criteria criteria) throws Exception;
 

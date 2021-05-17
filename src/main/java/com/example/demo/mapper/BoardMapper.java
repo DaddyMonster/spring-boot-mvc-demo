@@ -23,7 +23,7 @@ public interface BoardMapper {
     @Select("select count(*) from board")
     public Integer boardCount();
 
-    @Insert("insert into board(title , description, issuerId) values(#{dto.title} #{dto.description} #{issuerId})")
+    @Insert("insert into board (title, description,issuerId) values (#{dto.title}, #{dto.description}, #{issuerId});")
     public int registerBoard(RegisterBoardDto dto, int issuerId);
 
     @Update("update board set title=#{dto.title}, description=#{dto.description} , updatedAt=#{now} where id=#{boardId}")

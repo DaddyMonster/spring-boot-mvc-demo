@@ -67,7 +67,7 @@ public class AuthController {
                 // 굳이 로그인 하나에 해당해선 인터셉터로 구현할 필요는 없을듯...(컨트롤러로 충분)?!
                 // Session 과 쿠키 세팅을 인터셉터로 구현하는게 나은가?
                 model.addAttribute("user", userVo.getUser());
-                return "board";
+                return "board/index";
 
             } catch (Exception e) {
                 return "error";
