@@ -21,8 +21,12 @@
             </div>
             <div class="is-flex is-justify-content-center px-5 pt-6">
                 <a class="button is-secondary is-light mr-2" title="This is the first page" href="/board">목록</a>
-                <a class="button is-primary is-light mr-2" title="This is the first page" href="/board">수정</a>
-                <a class="button is-danger is-light mr-2" title="This is the first page" href="/board">삭제</a>
+                <c:if test="${content.issuerId == user.id}">
+                <a class="button is-primary is-light mr-2" title="This is the first page"
+                    href="<c:out value="/board/modify/${content.id}"></c:out>">수정</a>
+                <a class="button is-danger is-light mr-2" title="This is the first page"
+                    href="/board/delete/${content.id}">삭제</a>
+                </c:if>
             </div>
         </div>
     </section>
@@ -30,7 +34,7 @@
 
 <script>
     $(document).ready(function () {
-        console.log("${content.toString()}")
+        console.log("${content.issuerId}", "${user.id}")
     })
 </script>
 

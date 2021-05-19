@@ -9,7 +9,10 @@
     <link rel="stylesheet" href="/static/css/board.css">
     <title>Board</title>
 </head>
-
+<%	
+Object user = session.getAttribute("loginUser"); 
+ System.out.println(user);
+%>
 <body>
     <jsp:include page="../common/header.jsp" />
     <section class="container is-max-desktop my-3">

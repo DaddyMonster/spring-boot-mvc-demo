@@ -13,6 +13,8 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+// TODO : XML 방식으로 변경!
+
 @Mapper
 public interface DemoUserMapper {
 

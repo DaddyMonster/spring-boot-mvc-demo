@@ -12,6 +12,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+// TODO : XML 방식으로 변경!
+
 @Mapper
 public interface BoardMapper {
     @Select("select * from board where id = #{boardId}")

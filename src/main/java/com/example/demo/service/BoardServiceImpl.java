@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.example.demo.dto.RegisterBoardDto;
@@ -18,7 +19,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public int regist(RegisterBoardDto board, int uid) throws Exception {
-       return mapper.registerBoard(board, uid);
+        return mapper.registerBoard(board, uid);
     }
 
     @Override
@@ -27,8 +28,9 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void modify(BoardModel board) throws Exception {
+    public void modify(RegisterBoardDto dto, int boardId) throws Exception {
 
+        mapper.updateBoard(boardId, dto, new Date());
     }
 
     @Override

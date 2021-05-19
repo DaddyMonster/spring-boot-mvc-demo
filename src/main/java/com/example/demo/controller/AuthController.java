@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.util.WebUtils;
 
 @Controller
-public class AuthController {
+public class AuthController implements SessionNames {
 
     @Autowired
     private AuthService auth_srv;
@@ -110,4 +112,15 @@ public class AuthController {
         }
 
     }
+
+    @GetMapping("logout")
+    public String logout(HttpSession session, HttpServletResponse response) throws IOException {
+        session.invalidate();
+        Cookie loginCookie = new Cookie(LOGIN_COOKIE, session.getId());
+        loginCookie.setPath("/");
+        loginCookie.setMaxAge(0);
+        response.addCookie(loginCookie);
+        return "index";
+    }
+
 }

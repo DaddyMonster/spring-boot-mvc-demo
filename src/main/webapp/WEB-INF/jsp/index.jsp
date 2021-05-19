@@ -2,19 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<%@ include file="common/base.jspf"%>
-<link rel="stylesheet" href="/static/css/index.css">
-<title>Home</title>
+	<%@ include file="common/base.jspf"%>
+	<link rel="stylesheet" href="/static/css/index.css">
+	<title>Home</title>
 </head>
 
 <script>
-window.onload = () => console.log("Hello", "${name}");
+	window.onload = () => console.log("Hello", "${name}");
 </script>
 
 <body>
+	<jsp:include page="common/header.jsp" />
 	<main>
-		<jsp:include page="common/header.jsp" />
+
 		<section class="jumbo">
 			<h1>Let's Write some blog posts!</h1>
 		</section>
@@ -25,4 +27,3 @@ window.onload = () => console.log("Hello", "${name}");
 </body>
 
 </html>
-

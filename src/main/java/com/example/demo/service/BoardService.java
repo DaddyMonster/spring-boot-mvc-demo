@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.example.demo.dto.RegisterBoardDto;
@@ -11,7 +12,7 @@ public interface BoardService {
 
     BoardModel read(Integer boardId) throws Exception;
 
-    void modify(BoardModel board) throws Exception;
+    void modify(RegisterBoardDto board, int boardId) throws Exception;
 
     int remove(Integer bno) throws Exception;
 

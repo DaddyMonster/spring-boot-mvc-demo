@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller("/board/*")
+@Controller
 public class BoardController {
 
     @Autowired
@@ -31,19 +31,11 @@ public class BoardController {
 
     @GetMapping("board")
     public String boardPage(Model model, Criteria cri) throws Exception {
+
         PageMakerModel pageMaker = new PageMakerModel();
         pageMaker.setCri(cri);
         pageMaker.setTotalCount(board_srv.countPaging());
         List<BoardModel> list = board_srv.listCriteria(cri);
-        /*
-         * System.out.println("\n\n LIST : " + list + "\n\n");
-         * System.out.println("\n\n TotalCount : " + pageMaker.getTotalCount() +
-         * "\n\n"); System.out.println("\n\n END PAGE" + pageMaker.getEndPage() +
-         * "\n\n"); System.out.println("\n\n Get Start Page" + pageMaker.getStartPage()
-         * + "\n\n"); System.out.println("\n\n Get Cri" + pageMaker.getCri() + "\n\n");
-         * System.out.println("\n\n IS PREV" + pageMaker.isPrev() + "\n\n");
-         * System.out.println("\n\n IS NEXT" + pageMaker.isNext() + "\n\n");
-         */
         model.addAttribute("boardList", list);
         model.addAttribute("pageMaker", pageMaker);
 
@@ -84,21 +76,43 @@ public class BoardController {
 
     }
 
-    @PostMapping("board/delete/{boardId}")
-    public String removeBoard(@PathVariable int boardId) throws Exception {
-        int result = board_srv.remove(boardId);
-        if (result == 0) {
-            return "board";
-        }
-        return "error";
-
+    @GetMapping("board/delete/{boardId}")
+    public void removeBoard(@PathVariable int boardId, HttpServletResponse response) throws Exception {
+        board_srv.remove(boardId);
+        response.sendRedirect("/board");
     }
 
     @GetMapping("board/modify/{boardId}")
-    public String modifyBoard(@PathVariable int boardId, Model model) throws Exception {
-        BoardModel target = board_srv.read(boardId);
-        RegisterBoardDto dto = new RegisterBoardDto(target.getTitle(), target.getDescription());
-        model.addAttribute("boardDto", dto);
+    public String modifyBoard(@PathVariable int boardId, Model model, HttpSession session, HttpServletResponse response)
+            throws Exception {
+
+        BoardModel board = board_srv.read(boardId);
+
+        DemoUserModel user = (DemoUserModel) session.getAttribute(SessionNames.LOGIN);
+
+        RegisterBoardDto dto = new RegisterBoardDto();
+        dto.setTitle(board.getTitle());
+        dto.setDescription(board.getDescription());
+        model.addAttribute("registerBoardDto", dto);
+        model.addAttribute("boardId", boardId);
+
+        if (user == null || user.getId() != board.getIssuerId()) {
+            response.sendRedirect("/board/no-auth");
+            return null;
+        }
+
         return "board/modify";
     }
+
+    @PostMapping("board/modify/{boardId}/submit")
+    public void modifySubmit(@Valid @ModelAttribute("board") RegisterBoardDto dto, @PathVariable int boardId,
+            HttpServletResponse response, BindingResult bindingResult) throws Exception {
+        if (bindingResult.hasErrors()) {
+            response.sendRedirect("/board/modify/" + boardId);
+        }
+        board_srv.modify(dto, boardId);
+        response.sendRedirect("/board/read/" + boardId);
+
+    }
+
 }
