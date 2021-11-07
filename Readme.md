@@ -1,7 +1,7 @@
 # Spring-Boot 사용한 게시판 구현!
 
 ### #목표
-스프링 및 스프링 Boot의 개략적인 이해와 적용
+스프링 Boot의 개략적인 이해와 적용
 ##### 필수 구현 조건
 - User Authentication 구현
 - 초 간단 게시판 CRUD 구현
