@@ -1,4 +1,4 @@
-# Spring-Boot 사용한 게시판 구현!
+# Spring-Boot 연습
 
 ### #목표
 스프링 Boot의 개략적인 이해와 적용
