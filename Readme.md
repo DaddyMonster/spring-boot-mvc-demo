@@ -15,16 +15,6 @@
 - CI/CD Pipeline 구축 (젠킨스 사용?)
 
 
-## 학습 Process
-- #### **토비의 스프링**
-    - 멋도 모르고 잘 팔리는 책이라 구매함
-    - 내용은 너무 좋으나 **빠르게 시작해보는 목적에 부합하지 않음**
-
-- #### **Udemy**
-     **Spring & Hibernate for Beginners (includes Spring Boot) by Chad Darby** https://www.udemy.com/course/spring-hibernate-tutorial/
-    - 세일중에 구매하면 14,000원대. 
-    - 핵심적인 개념들을 매우 상세히 잘 정리해줌
-    - 초보자 대상이라 템포가 좀 느리다. Overview 부분들만 보고 나머진 참고만 하고 넘기면서 진행함.
 
 ##구현 상태
 ###### *@지속적 업데이트 예정*
